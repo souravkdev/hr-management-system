@@ -28,17 +28,17 @@ FRONTEND_URL = os.getenv("FRONTEND_URL", "").strip().rstrip("/")
 origins = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
-    "https://hr-management-system-frontend-fawn.vercel.app/"
+    "https://hr-management-system-frontend-fawn.vercel.app", # Fixed: No trailing slash
 ]
 if FRONTEND_URL:
-    origins.append(FRONTEND_URL)
-    # Also add version without protocol if needed, but origins usually require protocol
-    # Most importantly, handle both with and without trailing slash automatically
-    origins.append(f"{FRONTEND_URL}/")
+    # Ensure no duplicate and no trailing slash
+    clean_url = FRONTEND_URL.rstrip("/")
+    if clean_url not in origins:
+        origins.append(clean_url)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins if FRONTEND_URL else ["*"], # Allow all if not specified for easier debugging
+    allow_origins=origins if (FRONTEND_URL or "vercel.app" in str(origins)) else ["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
