@@ -7,9 +7,21 @@ import os
 import models, schemas, crud
 from database import engine, get_db
 
-models.Base.metadata.create_all(bind=engine)
-
 app = FastAPI(title="HRMS Lite API")
+
+# Root endpoint for health checks
+@app.get("/")
+def read_root():
+    return {"status": "ok", "message": "HRMS Lite API is running"}
+
+@app.on_event("startup")
+def startup_db_client():
+    try:
+        models.Base.metadata.create_all(bind=engine)
+        print("Database initialized successfully")
+    except Exception as e:
+        print(f"Error initializing database: {e}")
+        # We don't raise here so the app can still start and we can see logs/health
 
 # Setup CORS to allow Next.js app to communicate
 origins = [
