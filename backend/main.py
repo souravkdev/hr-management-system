@@ -23,14 +23,21 @@ def startup_db_client():
         print(f"Error initializing database: {e}")
         # We don't raise here so the app can still start and we can see logs/health
 
-# Setup CORS to allow Next.js app to communicate
+# Setup CORS
+FRONTEND_URL = os.getenv("FRONTEND_URL", "").strip().rstrip("/")
 origins = [
     "http://localhost:3000",
-    os.getenv("FRONTEND_URL", ""),
+    "http://127.0.0.1:3000",
 ]
+if FRONTEND_URL:
+    origins.append(FRONTEND_URL)
+    # Also add version without protocol if needed, but origins usually require protocol
+    # Most importantly, handle both with and without trailing slash automatically
+    origins.append(f"{FRONTEND_URL}/")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[o for o in origins if o],
+    allow_origins=origins if FRONTEND_URL else ["*"], # Allow all if not specified for easier debugging
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
