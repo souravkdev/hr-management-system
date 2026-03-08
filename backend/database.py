@@ -15,8 +15,13 @@ _DEFAULT_DB_PATH = os.path.join(_PROJECT_ROOT, "db", "hrms.db")
 # Prioritize Vercel/Supabase environment variables
 DATABASE_URL = os.getenv("POSTGRES_URL") or os.getenv("DATABASE_URL")
 
-# Fallback to local postgres for development if no env var is set
-if not DATABASE_URL:
+if DATABASE_URL:
+    # Diagnostic logging (masked)
+    from urllib.parse import urlparse
+    parsed = urlparse(DATABASE_URL)
+    print(f"Using database connection: {parsed.scheme}://{parsed.hostname}:{parsed.port}{parsed.path}")
+else:
+    print("WARNING: No DATABASE_URL or POSTGRES_URL found in environment. Falling back to localhost.")
     DATABASE_URL = "postgresql://postgres:postgres@localhost:5432/postgres"
 
 # SQLAlchemy requires 'postgresql://' instead of 'postgres://'
