@@ -63,12 +63,12 @@ export default function LoginPage() {
                     </div>
 
                     {/* Hint */}
-                    <div className="flex items-center gap-2 bg-indigo-600/10 border border-indigo-500/20 rounded-xl px-4 py-3 mb-6">
+                    {/* <div className="flex items-center gap-2 bg-indigo-600/10 border border-indigo-500/20 rounded-xl px-4 py-3 mb-6">
                         <ShieldCheck className="w-4 h-4 text-indigo-400 flex-shrink-0" />
                         <p className="text-xs text-indigo-300">
                             Default credentials: <span className="font-semibold text-indigo-200">admin / admin123</span>
                         </p>
-                    </div>
+                    </div> */}
 
                     <form onSubmit={handleLogin} className="space-y-4">
                         <div>
