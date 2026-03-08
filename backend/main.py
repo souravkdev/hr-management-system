@@ -28,6 +28,7 @@ FRONTEND_URL = os.getenv("FRONTEND_URL", "").strip().rstrip("/")
 origins = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+    "https://hr-management-system-frontend-fawn.vercel.app/"
 ]
 if FRONTEND_URL:
     origins.append(FRONTEND_URL)
