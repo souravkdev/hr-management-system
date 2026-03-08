@@ -2,6 +2,7 @@ from fastapi import FastAPI, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List
 from fastapi.middleware.cors import CORSMiddleware
+import os
 
 import models, schemas, crud
 from database import engine, get_db
@@ -11,9 +12,13 @@ models.Base.metadata.create_all(bind=engine)
 app = FastAPI(title="HRMS Lite API")
 
 # Setup CORS to allow Next.js app to communicate
+origins = [
+    "http://localhost:3000",
+    os.getenv("FRONTEND_URL", ""),
+]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=[o for o in origins if o],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
