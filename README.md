@@ -65,7 +65,7 @@ To access the system, use the following default credentials on the login page:
 ## 🛠 Tech Stack
 - **Frontend**: Next.js 15 (App Router), Tailwind CSS, Lucide React, Axios.
 - **Backend**: FastAPI, SQLAlchemy ORM.
-- **Database**: SQLite (Local development).
+- **Database**: SQLite (Local development), PostgreSQL.
 - **Testing**: Pytest.
 
 ## 🧪 Running Tests
